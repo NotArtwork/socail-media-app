@@ -13,7 +13,9 @@ const App = () => {
       method: 'POST',
       body: data
     })
+    let res = await req.json()
     if (req.ok) {
+      console.log('User', res)
       alert('You have logged in')
     } else {
       alert('Invalid email/password')

@@ -1,0 +1,11 @@
+Redux setup
+
+
+1. The global state comes from an object called "store"
+2. the store is the object that can be accessed globally in your React app
+via the Provider component. All children of the Provider can access the store.
+3. Store is updated via a function called a "reducer". A reducer just tells the app
+what the next state should be.
+
+
+Component setup

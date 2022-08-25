@@ -1,26 +1,21 @@
 import './App.css';
 import {useState, useEffect, useRef } from 'react'
+import store from './store';
+import { connect } from 'react-redux'
+import NavBar from './NavBar'
 
 const App = () => {
 
   const [posts, setPosts] = useState([])
-  const form = useRef()
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    const data = new FormData(form.current)
-    let req = await fetch('http://localhost:3100/login', {
-      method: 'POST',
-      body: data
-    })
-    let res = await req.json()
-    if (req.ok) {
-      console.log('User', res)
-      alert('You have logged in')
-    } else {
-      alert('Invalid email/password')
-    }
+  const addValue = () => {
+    store.dispatch({type: 'counter/incremented'})
   }
+  
+  const removeValue = () => {
+    store.dispatch({type: 'counter/decremented'})
+  }
+
 
   useEffect(() => {
 
@@ -50,15 +45,19 @@ const App = () => {
           )
         })
       }
+      
+
       <hr />
-      <h2>Log in</h2>
-      <form onSubmit={handleSubmit} ref={form}>
-        <input name='email' type='email' placeholder='email' /><br />
-        <input name='password' type='password' placeholder='Password' /><br />
-        <input type='submit' />
-      </form>
+      <h4>Global count is {store.getState().value}</h4>
+      <button onClick={addValue}>Add Value</button>
+      <button onClick={removeValue}>Remove Value</button>
     </div>
+
   );
 }
 
-export default App;
+const mapStateToProps = state => {
+  return {value: state.value}
+}
+export default connect(mapStateToProps)(App)
+
